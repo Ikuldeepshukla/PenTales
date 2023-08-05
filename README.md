@@ -1,2 +1,2 @@
 # PenTales
-A Blogging application allows the user to write, read blogs.
+A Blogging application that allows the user to write, read, save blogs.
