@@ -4,6 +4,7 @@ const app = express();
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const fileupload = require("express-fileupload");
+const cors = require("cors");
 
 // for swagger documentation
 // const swaggerUi = require("swagger-ui-express");
@@ -12,6 +13,10 @@ const fileupload = require("express-fileupload");
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // regular middleware
+const options = {
+  origin: "*",
+};
+app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // temp-setup template engine

@@ -1,60 +1,123 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppLogo } from "../../assets/export-asset";
+import { Button, Nav, Navbar } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import SignIn from "../signin/index";
+import SignUp from "../signup/index";
+import { signoutUser } from "../../redux/reducers/userSlice";
 
 const Index = () => {
+  const [popup, setPopup] = useState({
+    signIn: false,
+    signUp: false,
+  });
+
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const openSignIn = () => {
+    handleClose();
+    setPopup((prevPopup) => ({ ...prevPopup, signIn: true }));
+  };
+
+  const openSignUp = () => {
+    handleClose();
+    setPopup((prevPopup) => ({ ...prevPopup, signUp: true }));
+  };
+
+  const handleClose = () => {
+    setPopup({
+      signIn: false,
+      signUp: false,
+    });
+  };
+
+  const handleSignOut = () => {
+    dispatch(signoutUser());
+  };
+
+  useEffect(() => {
+    if (user && Object.keys(user).length) {
+      setLoggedInUser(user);
+    } else {
+      setLoggedInUser(null);
+    }
+  }, [user]);
+
+  console.log("POPUP", user);
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary shadow">
-      <div className="container">
-        <Link className="navbar-brand d-flex align-items-center" to="/">
-          <div>Pen Tales &nbsp;</div>
-          <img src={AppLogo} height="30" alt="Pen Tales logo" />
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
+    <>
+      {popup.signIn && (
+        <SignIn
+          show={popup.signIn}
+          handleClose={handleClose}
+          openSignUp={openSignUp}
+        />
+      )}
+      {popup.signUp && (
+        <SignUp
+          show={popup.signUp}
+          handleClose={handleClose}
+          openSignIn={openSignIn}
+        />
+      )}
+      <Navbar bg="body-tertiary" expand="lg" shadow>
+        <div className="container">
+          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+            <div>Pen Tales &nbsp;</div>
+            <img src={AppLogo} height="30" alt="Pen Tales logo" />
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarSupportedContent" />
+          <Navbar.Collapse id="navbarSupportedContent">
+            <Nav className="me-auto mb-2 mb-lg-0">
+              <Nav.Link as={Link} to="/" active>
                 Feed
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link active"
-                aria-current="page"
-                to="/profile"
-              >
+              </Nav.Link>
+              <Nav.Link as={Link} to="/profile" active>
                 Profile
-              </Link>
-            </li>
-          </ul>
-          <div className="d-flex">
-            <button
-              className="btn btn-outline-dark btn-sm m-2 mt-0 mb-0"
-              type="submit"
-            >
-              Signin
-            </button>
-            <button
-              className="btn btn-outline-dark btn-sm m-2 mt-0 mb-0"
-              type="submit"
-            >
-              Signup
-            </button>
-          </div>
+              </Nav.Link>
+            </Nav>
+            {loggedInUser ? (
+              <div className="d-flex">
+                <div className="m-2 mt-0 mb-0">
+                  Welcome {loggedInUser?.name} 😃
+                </div>
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  className="m-2 mt-0 mb-0"
+                  onClick={handleSignOut}
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="d-flex">
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  className="m-2 mt-0 mb-0"
+                  onClick={openSignIn}
+                >
+                  Signin
+                </Button>
+                <Button
+                  variant="outline-dark"
+                  size="sm"
+                  className="m-2 mt-0 mb-0"
+                  onClick={openSignUp}
+                >
+                  Signup
+                </Button>
+              </div>
+            )}
+          </Navbar.Collapse>
         </div>
-      </div>
-    </nav>
+      </Navbar>
+    </>
   );
 };
 

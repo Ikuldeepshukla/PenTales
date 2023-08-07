@@ -13,8 +13,8 @@ const {
 const { isLoggedIn } = require("../middlewares/user");
 
 router.route("/signup").post(signup);
-router.route("/login").post(signin);
-router.route("/logout").get(signout);
+router.route("/signin").post(signin);
+router.route("/signout").get(signout);
 router.route("/forgotpassword").post(forgotpassword);
 router.route("/password/reset/:token").post(resetPassword);
 router.route("/userdashboard").get(isLoggedIn, getIsLoggedInUserDetails);

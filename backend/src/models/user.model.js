@@ -22,16 +22,16 @@ const userSchema = new mongoose.Schema({
     minlength: [6, "Password should be atleast 6 characters"],
     select: false,
   },
-  photo: {
-    id: {
-      type: String,
-      required: [true, "Photo id is required"],
-    },
-    secure_url: {
-      type: String,
-      required: [true, "Photo url is required"],
-    },
-  },
+  // photo: {
+  //   id: {
+  //     type: String,
+  //     required: [true, "Photo id is required"],
+  //   },
+  //   secure_url: {
+  //     type: String,
+  //     required: [true, "Photo url is required"],
+  //   },
+  // },
   forgotPasswordToken: String,
   forgotPasswordExpiry: Date,
   createdAt: {

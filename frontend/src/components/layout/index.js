@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "../header/index";
 import Footer from "../footer/index";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Index = ({ children }) => {
   return (
-    <div className="d-flex flex-column justify-content-between vh-100">
+    <div className="d-flex flex-column min-vh-100">
       <Header />
-      <div className="m-auto container">{children}</div>
+      <Container className="flex-grow-1">{children}</Container>
       <Footer />
     </div>
   );

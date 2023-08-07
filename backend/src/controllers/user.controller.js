@@ -9,21 +9,21 @@ const crypto = require("crypto");
 exports.signup = async (req, res) => {
   try {
     let result;
-    if (!req.files) {
-      res.status(400).send({
-        success: false,
-        message: "Photo is required",
-      });
-    }
-    if (req.files) {
-      let file = req.files.photo;
-      result = await cloudinary.v2.uploader.upload(file.tempFilePath, {
-        folder: "users",
-        width: 150,
-        crop: "scale",
-      });
-    }
-    console.log(req.body);
+    // if (!req.files) {
+    //   res.status(400).send({
+    //     success: false,
+    //     message: "Photo is required",
+    //   });
+    // }
+    // if (req.files) {
+    //   let file = req.files.photo;
+    //   result = await cloudinary.v2.uploader.upload(file.tempFilePath, {
+    //     folder: "users",
+    //     width: 150,
+    //     crop: "scale",
+    //   });
+    // }
+    // console.log(req.body);
     const { name, email, password } = req.body;
     if (!email || !name || !password) {
       res.status(400).send({
@@ -36,10 +36,10 @@ exports.signup = async (req, res) => {
       name,
       email,
       password,
-      photo: {
-        id: result.public_id,
-        secure_url: result.secure_url,
-      },
+      // photo: {
+      //   id: result.public_id,
+      //   secure_url: result.secure_url,
+      // },
     });
 
     cookieToken(user, res);
@@ -54,6 +54,7 @@ exports.signup = async (req, res) => {
 // signin user
 exports.signin = async (req, res) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
     if (!email || !password) {
       res.status(400).send({
