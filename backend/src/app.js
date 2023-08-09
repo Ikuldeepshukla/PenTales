@@ -19,8 +19,6 @@ const options = {
 app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// temp-setup template engine
-// app.set("view engine", "ejs");
 
 // cookies and file middleware
 app.use(cookieParser());

@@ -2,6 +2,7 @@ const Post = require("../models/post.model");
 
 exports.getPosts = async (req, res) => {
   try {
+    console.log("Check");
     const posts = await Post.find();
     if (posts) {
       res.status(200).send({
@@ -19,10 +20,8 @@ exports.getPosts = async (req, res) => {
 
 exports.addPost = async (req, res) => {
   try {
-    const { title, content, category, author } = req.body;
-
     // Create a new post
-    const newPost = await Post.create({ title, content, category, author });
+    const newPost = await Post.create(req.body);
 
     if (newPost) {
       // Fetch the updated posts array after adding the new post

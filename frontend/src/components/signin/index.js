@@ -6,7 +6,7 @@ import { signinUser } from "../../redux/reducers/userSlice";
 const Index = ({ show, handleClose, openSignUp }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const { error, user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleSignIn = (e) => {
     e.preventDefault();
@@ -80,9 +80,6 @@ const Index = ({ show, handleClose, openSignUp }) => {
             </Col>
           </Row>
         </Form>
-        <Row>
-          <Col>{error && error}</Col>
-        </Row>
       </Modal.Body>
     </Modal>
   );

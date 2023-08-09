@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { POST_CATEGORY } = require("../utils/constants");
-const { nanoid } = require("nanoid");
+const { v4: uuidv4 } = require("uuid");
 
 const commentSchema = new mongoose.Schema({
   author: {
@@ -24,8 +24,13 @@ const commentSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema({
   _id: {
-    type: string,
-    default: () => nanoid(),
+    type: String,
+    default: () => uuidv4(),
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   date: {
     type: Date,
@@ -48,7 +53,11 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  comments: [commentSchema],
+  comments: {
+    type: [commentSchema],
+    default: [],
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("Post", postSchema);

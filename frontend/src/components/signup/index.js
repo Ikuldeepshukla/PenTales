@@ -10,7 +10,7 @@ const Index = ({ handleClose, openSignIn }) => {
     password: "",
   });
 
-  const { error, user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleSignUp = (e) => {
@@ -99,9 +99,6 @@ const Index = ({ handleClose, openSignIn }) => {
             </Col>
           </Row>
         </Form>
-        <Row>
-          <Col>{error && error}</Col>
-        </Row>
       </Modal.Body>
     </Modal>
   );

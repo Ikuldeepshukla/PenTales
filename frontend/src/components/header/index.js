@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppLogo } from "../../assets/export-asset";
-import { Button, Nav, Navbar } from "react-bootstrap";
+import { Badge, Button, Nav, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import SignIn from "../signin/index";
 import SignUp from "../signup/index";
+import CreatePost from "../create-post";
 import { signoutUser } from "../../redux/reducers/userSlice";
 
 const Index = () => {
   const [popup, setPopup] = useState({
     signIn: false,
     signUp: false,
+    createPost: false,
   });
 
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -28,12 +30,20 @@ const Index = () => {
     setPopup((prevPopup) => ({ ...prevPopup, signUp: true }));
   };
 
+  const openCreatePost = () => {
+    handleClose();
+    setPopup((prevPopup) => ({ ...prevPopup, createPost: true }));
+  };
+
   const handleClose = () => {
     setPopup({
       signIn: false,
       signUp: false,
+      createPost: false,
     });
   };
+
+  const handleAddPost = () => {};
 
   const handleSignOut = () => {
     dispatch(signoutUser());
@@ -64,6 +74,9 @@ const Index = () => {
           openSignIn={openSignIn}
         />
       )}
+      {popup.createPost && (
+        <CreatePost show={popup.createPost} handleClose={handleClose} />
+      )}
       <Navbar bg="body-tertiary" expand="lg" shadow>
         <div className="container">
           <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
@@ -87,6 +100,13 @@ const Index = () => {
                 </div>
                 <Button
                   variant="outline-dark"
+                  onClick={openCreatePost}
+                  size="sm"
+                >
+                  Add Post
+                </Button>
+                <Button
+                  variant="outline-dark"
                   size="sm"
                   className="m-2 mt-0 mb-0"
                   onClick={handleSignOut}
@@ -96,6 +116,9 @@ const Index = () => {
               </div>
             ) : (
               <div className="d-flex">
+                <div className="m-2 mt-0 mb-0">
+                  Hi there! Please signin or signup to create your post 😃
+                </div>
                 <Button
                   variant="outline-dark"
                   size="sm"

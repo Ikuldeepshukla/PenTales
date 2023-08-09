@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import PenTalesApi from "../../api/PenTales";
 import { USER_SIGNIN, USER_SIGNUP, USER_LOGOUT } from "../../api/endpoints";
+import { toast } from "react-toastify";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) || null,
@@ -47,10 +48,12 @@ const userSlice = createSlice({
         state.user = action.payload.user;
         state.error = null;
         localStorage.setItem("user", JSON.stringify(action.payload.user));
+        toast("Signed in successfully");
       })
       .addCase(signinUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        toast(action.error.message);
       })
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
@@ -60,10 +63,12 @@ const userSlice = createSlice({
         state.user = action.payload.user;
         state.error = null;
         localStorage.setItem("user", JSON.stringify(action.payload.user));
+        toast("User signed up successfully");
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        toast(action.error.message);
       })
       .addCase(signoutUser.pending, (state) => {
         state.loading = true;
@@ -73,6 +78,7 @@ const userSlice = createSlice({
         state.user = null;
         state.error = null;
         localStorage.removeItem("user");
+        toast("User loggedout successfully");
       })
       .addCase(signoutUser.rejected, (state, action) => {
         state.loading = false;
